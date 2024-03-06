@@ -124,3 +124,26 @@ img{
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
 }
+
+.contact-section {
+    background-color: #fff;
+    padding: 40px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.contact-section h2 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+.contact-info {
+    padding: 20px 0;
+}
+.contact-info p {
+    margin-bottom: 10px;
+}
+.car-image {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
