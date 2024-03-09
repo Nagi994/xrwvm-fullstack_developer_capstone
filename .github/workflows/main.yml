@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Set up Python (using recommended Node.js 20.x)
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
@@ -24,12 +24,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install flake8
+          pip install flake8 black  # Consider adding Black for formatting
 
-      - name: Run Linter
+      - name: Run Linter and Formatter (assuming Black is installed)
         run: |
-          flake8 .
-          echo "Linted all the Python files successfully"
+          black . --check  # Check formatting with Black
+          flake8 .           # Run Flake8 linting
+          echo "Linted and formatted all the Python files successfully"
       - name: Fail job if linting errors
         if: ${{ failure() }}
         run: exit 1
@@ -42,20 +43,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js (using recommended version 20.x)
+      - name: Set up Node.js (using recommended Node.js 20.x)
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          cache: 'npm'  # Enable caching for faster Node.js downloads
+          cache: 'npm'
 
       - name: Install JSHint (assuming you still use JSHint)
         run: npm install jshint --global  # Consider using ESLint for more modern linting
 
+      - name: Install dependencies (ensure lock file exists)
+        run: npm install  # Install dependencies based on your project setup
+
       - name: Run Linter (focusing on the server/database directory)
         run: |
           jshint ./server/database --strict
-          echo "Linted all the JS files successfully"
+          echo "Linted all the JS files in server/database successfully"
       - name: Fail job if linting errors
         if: ${{ failure() }}
-        run: exit 1
         run: exit 1
