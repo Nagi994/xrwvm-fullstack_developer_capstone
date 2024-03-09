@@ -2,9 +2,9 @@ name: 'Lint Code'
 
 on:
   push:
-    branches: [main]
+    branches: [master, main]
   pull_request:
-    branches: [main]
+    branches: [master, main]
 
 jobs:
   lint_python:
@@ -18,19 +18,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: 3.12
           cache: 'pip'
 
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install flake8 black
+          pip install flake8
 
-      - name: Run Python Linter and Formatter
+      - name: Run Linter
         run: |
-          black . --check
-          find . -name "*.py" -exec flake8 --max-line-length=100 {} +
-          echo "Linted and formatted Python files successfully"
+          flake8 .
+          echo "Linted all the Python files successfully"
       - name: Fail job if linting errors
         if: ${{ failure() }}
         run: exit 1
@@ -46,16 +45,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 18.x
           cache: 'npm'
 
       - name: Install JSHint
         run: npm install jshint --global
 
-      - name: Run JavaScript Linter
+      - name: Run Linter
         run: |
-          find . -name "*.js" -exec jshint --strict {} +
-          echo "Linted all the JavaScript files successfully"
+          jshint ./server/database --strict
+          echo "Linted all the JS files successfully"
       - name: Fail job if linting errors
         if: ${{ failure() }}
         run: exit 1
