@@ -1,9 +1,9 @@
 name: 'Lint Code'
 on:
   push:
-    branches: [master, main]
+    branches: [main]
   pull_request:
-    branches: [master, main]
+    branches: [main]
 
 jobs:
   lint_python:
@@ -35,10 +35,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '20.x'
 
       - name: Install JSHint
         run: npm install jshint --global
@@ -46,6 +46,4 @@ jobs:
       - name: Run JavaScript Linter
         run: |
           find . -name "*.js" -exec jshint {} +
-          echo "Linted all the JavaScript files successfully"sively and runs JSHint on them
-          find ./server/database -name "*.js" -exec jshint {} +
-          echo "Linted all the js files successfully"
+          echo "Linted all the JavaScript files successfully"
